@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+	<h:form id="formCompleto">
+	branches
+	<p:dataTable value="#{branchesBean.branches}" var="item">
+			<p:column headerText="codigo branch">
+	 		#{item.code}
+	 	</p:column>
+			<p:column>
+	 		#{item.id}
+	 	</p:column>
+		</p:dataTable>
+	old branches
+	<p:dataTable value="#{branchesBean.branchesToPlanOld}" var="item">
+			<p:column>
+	 		#{item.id}
+	 	</p:column>
+			<p:column>
+	 		#{item.idPlan}
+	 	</p:column>
+			<p:column headerText="Codigo Branch">
+	 		#{item.branch.code}
+	 	</p:column>
+			<p:column headerText="Impuesto">
+	 		#{item.tax}
+	 	</p:column>
+			<p:column headerText="Neta">
+	 		#{item.neta}
+	 	</p:column>
+		</p:dataTable>
+	
+	new branches	
+	<p:dataTable value="#{branchesBean.branchesToPlanNew}" var="item"
+			id="tableBranch" editable="true" editMode="cell"
+			widgetVar="cellBranch">
+		<p:ajax event="cellEdit" listener="#{branchesBean.onCellEdit}" update=":formCompleto:impuestoLabel" />
+		<p:column headerText="CODIGO Branch">
+	 		#{item.branch.code}
+	 	</p:column>
+		<p:column headerText="Impuesto">
+			<p:cellEditor>
+				<f:facet name="output">
+					#{item.tax}		
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{item.tax}" decimalPlaces="0"></p:inputNumber>
+				</f:facet>
+			</p:cellEditor>
+	 	</p:column>
+		<p:column headerText="Neta">
+			<p:cellEditor>
+				<f:facet name="output">
+					#{item.neta}	
+				</f:facet>
+				<f:facet name="input">
+					<p:inputNumber value="#{item.neta}" decimalPlaces="0"></p:inputNumber>
+				</f:facet>
+			</p:cellEditor>
+	 	</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="1" footerText="Totales: "></p:column>
+
+					<p:column footerText="#{branchesBean.totalTax}"></p:column>
+					<p:column footerText="#{branchesBean.totalNet}"></p:column>
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+		<p:outputLabel value="#{branchesBean.totalImpuesto}" id="impuestoLabel"></p:outputLabel>
+		<p:commandButton value="Insertar" actionListener="#{branchesBean.ejecutaActualizacion}"></p:commandButton>
+	</h:form>
+</h:body>
+</html>
