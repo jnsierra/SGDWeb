@@ -137,7 +137,7 @@ public class BranchesBean implements Serializable {
 	}
 	
 	public void ejecutaActualizacion() {
-		branchesToPlanNew.forEach(System.out::println);
+		branchesToPlanNew.forEach(System.out::println);//aqui pongo un comentario
 	}
 
 	public Long getTotalImpuesto() {
